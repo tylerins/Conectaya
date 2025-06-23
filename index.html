@@ -9,19 +9,20 @@
     body {
       background-color: #111;
       color: #fff;
-      font-family: 'Segoe UI', sans-serif;
     }
     .section-title {
       margin-top: 2rem;
       margin-bottom: 1rem;
-      border-bottom: 1px solid #444;
-      padding-bottom: 0.5rem;
     }
-    .content-box {
-      background-color: #222;
+    .table-dark th,
+    .table-dark td {
+      vertical-align: middle;
+    }
+    div[id^="quotes"], div[id^="offers"], div[id^="recipe"], div[id^="news"] {
+      background: #222;
+      border-radius: 6px;
       padding: 1rem;
-      border-radius: 8px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
     footer {
       margin-top: 3rem;
@@ -39,39 +40,39 @@
 
   <section>
     <h2 class="text-success section-title">💬 Citas Inspiradoras</h2>
-    <div id="quotes" class="content-box">Cargando citas...</div>
+    <div id="quotes">Cargando citas...</div>
   </section>
 
   <section>
     <h2 class="text-info section-title">💰 Ofertas del Día</h2>
-    <div id="offers" class="content-box">Cargando ofertas...</div>
+    <div id="offers">Cargando ofertas...</div>
   </section>
 
   <section>
     <h2 class="text-primary section-title">🌟 Frase del Día</h2>
-    <div id="frase" class="content-box">Cargando frase...</div>
+    <div id="phrase">Cargando frase...</div>
   </section>
 
   <section>
-    <h2 class="text-warning section-title">🛍️ Oferta Especial</h2>
-    <div id="oferta_dia" class="content-box">Cargando oferta del día...</div>
+    <h2 class="text-warning section-title">🧺 Oferta Especial</h2>
+    <div id="specialOffer">Cargando oferta del día...</div>
   </section>
 
   <section>
     <h2 class="text-danger section-title">🍽️ Receta Rápida</h2>
-    <div id="receta" class="content-box">Cargando receta...</div>
+    <div id="recipe">Cargando receta...</div>
   </section>
 
   <section>
     <h2 class="text-light section-title">📰 Noticia en 3 Viñetas</h2>
-    <div id="noticia" class="content-box">Cargando noticia...</div>
+    <div id="news">Cargando noticia...</div>
   </section>
 
   <footer>
     © 2025 ConectaYa · Diseñado por Iván y Kael con ❤️ y café ☕
   </footer>
 
-  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="main.js"></script>
 </body>
 </html>
