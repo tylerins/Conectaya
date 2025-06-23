@@ -1,11 +1,11 @@
-// 1) Configuración de Supabase (copia exactamente desde tu panel)
+// 1) Configuración de Supabase (copia exactamente desde tu panel de Supabase)
 const supabaseUrl = 'https://nxlqaapdbcbevwnepyerxpr.supabase.co';
 const supabaseKey = '<TU_ANON_KEY>';
 
 // 2) Inicializa el cliente en una variable independiente
 const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-// Función auxiliar para renderizar contenido\ nfunction render(id, html) {
+// Función auxiliar para renderizar contenido en el DOM\ nfunction render(id, html) {
   document.getElementById(id).innerHTML = html;
 }
 
