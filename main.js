@@ -1,19 +1,66 @@
 // main.js
-const supabaseUrl = 'https://nxlqaqpdbcebwnyeprxp.supabase.co';
-const supabaseKey = 'eyJh...QkBEI'; // Tus credenciales aquí
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseUrl = 'https://nxlqaapdbcebwnypeprxp.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // Pon aquí tu key real completa
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-async function cargarTabla(tabla, elementId, formatFn) {
-  const { data, error } = await supabase.from(tabla).select('*');
-  const cont = document.getElementById(elementId);
-  if (error) return cont.innerHTML = 'Error cargando ' + tabla;
-  cont.innerHTML = formatFn(data);
+// Cargar citas
+async function cargarCitas() {
+  const { data, error } = await supabase.from('citas').select('*');
+  const contenedor = document.getElementById('quotes');
+  contenedor.innerHTML = error ? 'Error cargando citas.' :
+    data.map(item => `<p>"${item.texto}" — <em>${item.autor}</em></p>`).join('');
 }
 
-// Funciones específicas
-cargarTabla('citas', 'quotes', d => d.map(i => `<p>“${i.texto}” — <em>${i.autor}</em></p>`).join(''));
-cargarTabla('ofertas', 'offers', d => d.map(i => `<p><strong>${i.titulo}</strong>: ${i.descripcion}</p>`).join(''));
-cargarTabla('citas', 'phrase', d => d.length ? `<p>“${d[0].texto}” — <em>${d[0].autor}</em></p>` : '—');
-cargarTabla('ofertas', 'special-offer', d => d.length ? `<p><strong>${d[0].titulo}</strong>: ${d[0].descripcion}</p>` : '—');
-cargarTabla('recetas', 'recipe', d => d.length ? `<p><strong>${d[0].nombre}</strong>: ${d[0].ingredientes} — ${d[0].tiempo ?? '—'} min</p>` : '—');
-cargarTabla('noticias', 'news', d => d.length && d[0].vinyetas ? `<ul>${d[0].vinyetas.map(v => `<li>${v}</li>`).join('')}</ul>` : '—');
+// Cargar ofertas
+async function cargarOfertas() {
+  const { data, error } = await supabase.from('ofertas').select('*');
+  const contenedor = document.getElementById('offers');
+  contenedor.innerHTML = error ? 'Error cargando ofertas.' :
+    data.map(item => `<p><strong>${item.titulo}</strong>: ${item.descripcion}</p>`).join('');
+}
+
+// Frase del día (primera cita)
+async function cargarFrase() {
+  const { data, error } = await supabase.from('citas').select('*').limit(1);
+  const contenedor = document.getElementById('phrase');
+  contenedor.innerHTML = error || !data.length ? 'Error cargando frase.' :
+    `<p>"${data[0].texto}" — <em>${data[0].autor}</em></p>`;
+}
+
+// Oferta especial (primera oferta)
+async function cargarOfertaEspecial() {
+  const { data, error } = await supabase.from('ofertas').select('*').limit(1);
+  const contenedor = document.getElementById('special');
+  contenedor.innerHTML = error || !data.length ? 'Error cargando oferta especial.' :
+    `<p><strong>${data[0].titulo}</strong>: ${data[0].descripcion}</p>`;
+}
+
+// Receta rápida
+async function cargarReceta() {
+  const { data, error } = await supabase.from('recetas').select('*');
+  const contenedor = document.getElementById('recipe');
+  contenedor.innerHTML = error ? 'Error cargando receta.' :
+    data.map(item => `<p><strong>${item.nombre}</strong> - ${item.ingredientes} (${item.tiempo} min)</p>`).join('');
+}
+
+// Noticia en 3 viñetas
+async function cargarNoticias() {
+  const { data, error } = await supabase.from('noticias').select('*');
+  const contenedor = document.getElementById('news');
+  contenedor.innerHTML = error ? 'Error cargando noticias.' :
+    data.map(item => `
+      <p>
+        • ${item.vineta1}<br>
+        • ${item.vineta2}<br>
+        • ${item.vineta3}
+      </p>
+    `).join('');
+}
+
+// Lanzar todas las cargas
+cargarCitas();
+cargarOfertas();
+cargarFrase();
+cargarOfertaEspecial();
+cargarReceta();
+cargarNoticias();
