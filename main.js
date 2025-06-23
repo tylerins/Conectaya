@@ -5,7 +5,8 @@ const supabaseKey = '<TU_ANON_KEY>';
 // 2) Inicializa el cliente en una variable independiente
 const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-// Función auxiliar para renderizar contenido en el DOM\ nfunction render(id, html) {
+// Función auxiliar para renderizar contenido en el DOM
+define function render(id, html) {
   document.getElementById(id).innerHTML = html;
 }
 
