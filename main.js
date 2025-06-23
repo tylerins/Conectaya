@@ -6,7 +6,7 @@ const supabaseKey = '<TU_ANON_KEY>';
 const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 // Función auxiliar para renderizar contenido en el DOM
-define function render(id, html) {
+function render(id, html) {
   document.getElementById(id).innerHTML = html;
 }
 
