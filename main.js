@@ -1,66 +1,19 @@
 // main.js
 const supabaseUrl = 'https://nxlqaqpdbcebwnyeprxp.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTcwODQ3MzU0OCwiZXhwIjoyMDE0MDQ5NTQ4fQ.SRJ5iJUCAmr6-BIMbhEOcKQvXRSkYTadTAeVqfQkBEI';
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseKey = 'eyJh...QkBEI'; // Tus credenciales aquí
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-// 💬 Citas
-async function cargarCitas() {
-  const { data, error } = await supabase.from('citas').select('*');
-  const contenedor = document.getElementById('quotes');
-  contenedor.innerHTML = error
-    ? 'Error cargando citas.'
-    : data.map(item => `<p>“${item.texto}” — <em>${item.autor}</em></p>`).join('');
+async function cargarTabla(tabla, elementId, formatFn) {
+  const { data, error } = await supabase.from(tabla).select('*');
+  const cont = document.getElementById(elementId);
+  if (error) return cont.innerHTML = 'Error cargando ' + tabla;
+  cont.innerHTML = formatFn(data);
 }
 
-// 💰 Ofertas
-async function cargarOfertas() {
-  const { data, error } = await supabase.from('ofertas').select('*');
-  const contenedor = document.getElementById('offers');
-  contenedor.innerHTML = error
-    ? 'Error cargando ofertas.'
-    : data.map(item => `<p><strong>${item.titulo}</strong>: ${item.descripcion}</p>`).join('');
-}
-
-// 🌟 Frase del Día (1ª cita)
-async function cargarFrase() {
-  const { data, error } = await supabase.from('citas').select('*').limit(1);
-  const contenedor = document.getElementById('phrase');
-  contenedor.innerHTML = error || !data.length
-    ? 'Error cargando frase.'
-    : `<p>“${data[0].texto}” — <em>${data[0].autor}</em></p>`;
-}
-
-// 🛍️ Oferta Especial (1ª oferta)
-async function cargarOfertaEspecial() {
-  const { data, error } = await supabase.from('ofertas').select('*').limit(1);
-  const contenedor = document.getElementById('special-offer');
-  contenedor.innerHTML = error || !data.length
-    ? 'Error cargando oferta especial.'
-    : `<p><strong>${data[0].titulo}</strong>: ${data[0].descripcion}</p>`;
-}
-
-// 🍽️ Receta Rápida
-async function cargarReceta() {
-  const { data, error } = await supabase.from('recetas').select('*').limit(1);
-  const contenedor = document.getElementById('recipe');
-  contenedor.innerHTML = error || !data.length
-    ? 'Error cargando receta.'
-    : `<p><strong>${data[0].nombre}</strong>: ${data[0].ingredientes} — ${data[0].tiempo} min</p>`;
-}
-
-// 📰 Noticia en 3 Viñetas
-async function cargarNoticias() {
-  const { data, error } = await supabase.from('noticias').select('*').limit(1);
-  const contenedor = document.getElementById('news');
-  contenedor.innerHTML = error || !data.length
-    ? 'Error cargando noticias.'
-    : `<ul>${data[0].vinyetas.map(v => `<li>${v}</li>`).join('')}</ul>`;
-}
-
-// Ejecutar todo
-cargarCitas();
-cargarOfertas();
-cargarFrase();
-cargarOfertaEspecial();
-cargarReceta();
-cargarNoticias();
+// Funciones específicas
+cargarTabla('citas', 'quotes', d => d.map(i => `<p>“${i.texto}” — <em>${i.autor}</em></p>`).join(''));
+cargarTabla('ofertas', 'offers', d => d.map(i => `<p><strong>${i.titulo}</strong>: ${i.descripcion}</p>`).join(''));
+cargarTabla('citas', 'phrase', d => d.length ? `<p>“${d[0].texto}” — <em>${d[0].autor}</em></p>` : '—');
+cargarTabla('ofertas', 'special-offer', d => d.length ? `<p><strong>${d[0].titulo}</strong>: ${d[0].descripcion}</p>` : '—');
+cargarTabla('recetas', 'recipe', d => d.length ? `<p><strong>${d[0].nombre}</strong>: ${d[0].ingredientes} — ${d[0].tiempo ?? '—'} min</p>` : '—');
+cargarTabla('noticias', 'news', d => d.length && d[0].vinyetas ? `<ul>${d[0].vinyetas.map(v => `<li>${v}</li>`).join('')}</ul>` : '—');
