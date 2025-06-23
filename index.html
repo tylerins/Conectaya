@@ -4,60 +4,62 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>¡Bienvenido a ConectaYa!</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1.5.10/css/pico.min.css">
   <style>
     body {
       background: #111;
       color: #fff;
-      font-family: 'Segoe UI', sans-serif;
       padding: 2rem;
     }
     h1 {
-      color: #ffc107;
+      color: gold;
     }
-    .categoria {
-      margin-top: 2rem;
+    section {
+      margin-bottom: 2rem;
     }
   </style>
 </head>
 <body>
-  <h1>🚀 ¡Bienvenido a ConectaYa!</h1>
-  <p>Tu centro diario de inspiración, ofertas y más... actualizado en tiempo real.</p>
+  <main class="container">
+    <h1>🚀 ¡Bienvenido a ConectaYa!</h1>
+    <p>Tu centro diario de inspiración, ofertas y más... actualizado en tiempo real.</p>
 
-  <div class="categoria">
-    <h2>💊 Citas Inspiradoras</h2>
-    <div id="quotes">Cargando citas...</div>
-  </div>
+    <section>
+      <h3>🌟 Citas Inspiradoras</h3>
+      <div id="quotes">Cargando citas...</div>
+    </section>
 
-  <div class="categoria">
-    <h2>💰 Ofertas del Día</h2>
-    <div id="offers">Cargando ofertas...</div>
-  </div>
+    <section>
+      <h3>💰 Ofertas del Día</h3>
+      <div id="offers">Cargando ofertas...</div>
+    </section>
 
-  <div class="categoria">
-    <h2>🌞 Frase del Día</h2>
-    <div id="phrase">Cargando frase...</div>
-  </div>
+    <section>
+      <h3>🌞 Frase del Día (1ª cita)</h3>
+      <div id="phrase">Cargando frase...</div>
+    </section>
 
-  <div class="categoria">
-    <h2>🏸 Oferta Especial</h2>
-    <div id="special">Cargando oferta del día...</div>
-  </div>
+    <section>
+      <h3>🎧 Oferta Especial (1ª oferta)</h3>
+      <div id="special">Cargando oferta especial...</div>
+    </section>
 
-  <div class="categoria">
-    <h2>🍽️ Receta Rápida</h2>
-    <div id="recipe">Cargando receta...</div>
-  </div>
+    <section>
+      <h3>🍝 Receta Rápida</h3>
+      <div id="recipe">Cargando receta...</div>
+    </section>
 
-  <div class="categoria">
-    <h2>🖊️ Noticia en 3 Viñetas</h2>
-    <div id="news">Cargando noticias...</div>
-  </div>
+    <section>
+      <h3>🔹 Noticia en 3 Viñetas</h3>
+      <div id="news">Cargando noticias...</div>
+    </section>
 
-  <footer style="margin-top: 3rem; font-size: 0.9rem;">
-    © 2025 ConectaYa - Diseñado por Iván y Kael con ❤️ y café ☕️
-  </footer>
+    <footer>
+      <p>&copy; 2025 ConectaYa - Diseñado por Iván y Kael con ❤️ y café ☕</p>
+    </footer>
+  </main>
 
-  <!-- Supabase y tu script -->
+  <!-- Carga Supabase y el JS principal -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="main.js"></script>
 </body>
