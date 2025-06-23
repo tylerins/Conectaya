@@ -1,9 +1,9 @@
 // main.js
 const supabaseUrl = 'https://nxlqaapdbcebwnypeprxp.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // Pon aquí tu key real completa
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // ← Aquí va tu key real completa
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-// Cargar citas
+// 💬 Citas
 async function cargarCitas() {
   const { data, error } = await supabase.from('citas').select('*');
   const contenedor = document.getElementById('quotes');
@@ -11,7 +11,7 @@ async function cargarCitas() {
     data.map(item => `<p>"${item.texto}" — <em>${item.autor}</em></p>`).join('');
 }
 
-// Cargar ofertas
+// 💰 Ofertas
 async function cargarOfertas() {
   const { data, error } = await supabase.from('ofertas').select('*');
   const contenedor = document.getElementById('offers');
@@ -19,7 +19,7 @@ async function cargarOfertas() {
     data.map(item => `<p><strong>${item.titulo}</strong>: ${item.descripcion}</p>`).join('');
 }
 
-// Frase del día (primera cita)
+// 🌟 Frase del Día (1ª cita)
 async function cargarFrase() {
   const { data, error } = await supabase.from('citas').select('*').limit(1);
   const contenedor = document.getElementById('phrase');
@@ -27,7 +27,7 @@ async function cargarFrase() {
     `<p>"${data[0].texto}" — <em>${data[0].autor}</em></p>`;
 }
 
-// Oferta especial (primera oferta)
+// 🎁 Oferta Especial (1ª oferta)
 async function cargarOfertaEspecial() {
   const { data, error } = await supabase.from('ofertas').select('*').limit(1);
   const contenedor = document.getElementById('special');
@@ -35,7 +35,7 @@ async function cargarOfertaEspecial() {
     `<p><strong>${data[0].titulo}</strong>: ${data[0].descripcion}</p>`;
 }
 
-// Receta rápida
+// 🍽️ Receta rápida
 async function cargarReceta() {
   const { data, error } = await supabase.from('recetas').select('*');
   const contenedor = document.getElementById('recipe');
@@ -43,7 +43,7 @@ async function cargarReceta() {
     data.map(item => `<p><strong>${item.nombre}</strong> - ${item.ingredientes} (${item.tiempo} min)</p>`).join('');
 }
 
-// Noticia en 3 viñetas
+// 📰 Noticia en 3 viñetas
 async function cargarNoticias() {
   const { data, error } = await supabase.from('noticias').select('*');
   const contenedor = document.getElementById('news');
@@ -57,7 +57,7 @@ async function cargarNoticias() {
     `).join('');
 }
 
-// Lanzar todas las cargas
+// Ejecutar todas las cargas al iniciar
 cargarCitas();
 cargarOfertas();
 cargarFrase();
