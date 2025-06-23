@@ -1,17 +1,15 @@
 // 1) Importa createClient desde CDN (ESM)
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-// 2) Configuración de Supabase (reemplaza con tu llave real)
+// 2) Configuración de Supabase (reemplaza con tu llave pública "anon key")
 const supabaseUrl = 'https://xjpynyilaqajdvhxuyup.supabase.co';
-const supabaseKey = '$1';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqcHlueWlsYXFhamR2aHh1eXVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1NDMzNjksImV4cCI6MjA2NjExOTM2OX0.sMcXn-w_zvGCOoXfRCVzkWR2v3hnJ0VCwklZs1lKwyM';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// 3) Helper para renderizar contenido
+// 3) Helper para renderizar contenido en el DOM
 function render(id, html) {
   const el = document.getElementById(id);
-  if (el) {
-    el.innerHTML = html;
-  }
+  if (el) el.innerHTML = html;
 }
 
 // 4) Funciones para cargar datos desde Supabase
