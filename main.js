@@ -1,14 +1,15 @@
-// 1) Configuración de Supabase (copiar exactamente desde tu panel)
+// 1) Configuración de Supabase (copia exactamente desde tu panel)
 const supabaseUrl = 'https://nxlqaapdbcbevwnepyerxpr.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54bHFhcGRiY2JldnduZXB5ZXJ4cHgiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTY5Njg4NDk3NCwiZXhwIjoxOTEyNDYwOTc0fQ.ADj8hhVzU1qFphhTr1ujKNeNnoaUawuyFEctUGidNts'; // <TU_ANON_KEY>
+const supabaseKey = '<TU_ANON_KEY>';
 
-// 2) Inicializa el cliente en una variable independiente\const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+// 2) Inicializa el cliente en una variable independiente
+const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-// Función genérica para renderizar HTML en un contenedor
-function render(id, html) {
+// Función auxiliar para renderizar contenido\ nfunction render(id, html) {
   document.getElementById(id).innerHTML = html;
 }
 
+// 3) Funciones para cargar datos desde Supabase
 async function cargarCitas() {
   const { data, error } = await supabaseClient.from('citas').select('*');
   render('quotes', error
@@ -61,7 +62,7 @@ async function cargarNoticias() {
   );
 }
 
-// Al cargar el DOM, dispara todas las cargas
+// 4) Ejecuta todas las funciones al cargar el DOM
 window.addEventListener('DOMContentLoaded', () => {
   cargarCitas();
   cargarOfertas();
