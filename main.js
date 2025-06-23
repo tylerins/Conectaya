@@ -1,10 +1,3 @@
-// main.js (corregido y listo para usar)
-
-// 1. Cargar la librería de Supabase desde un CDN en tu HTML así:
-// <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-// 
-// 2. Luego asegúrate que este archivo JS se cargue DESPUÉS del script del CDN de Supabase en el HTML
-
 const supabaseUrl = 'https://nxlqaapdbcbevwnepyerxpr.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54bHFhcGRiY2JldnduZXB5ZXJ4cHgiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTY5Njg4NDk3NCwiZXhwIjoxOTEyNDYwOTc0fQ.ADj8hhVzU1qFphhTr1ujKNeNnoaUawuyFEctUGidNts';
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
