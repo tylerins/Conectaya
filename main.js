@@ -1,4 +1,4 @@
-// 1) Importa createClient desde CDN compatible ESM
+// 1) Importa createClient desde CDN (ESM)
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
 // 2) Configuración de Supabase (reemplaza con tu llave real)
@@ -67,10 +67,5 @@ async function cargarNoticias() {
 }
 
 // 5) Ejecuta todas las funciones al cargar el DOM\ nwindow.addEventListener('DOMContentLoaded', () => {
-  cargarCitas();
-  cargarOfertas();
-  cargarFrase();
-  cargarOfertaEspecial();
-  cargarReceta();
-  cargarNoticias();
+  cargarCitas(); cargarOfertas(); cargarFrase(); cargarOfertaEspecial(); cargarReceta(); cargarNoticias();
 });
