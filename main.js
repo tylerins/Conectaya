@@ -1,47 +1,76 @@
-// 1) Import ESM de Supabase
+// 1) Importa createClient desde CDN compatible ESM
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-// 2) Configuración de Supabase\ nconst supabaseUrl = 'https://xjpynyilaqajdvhxuyup.supabase.co';
-const supabaseKey = '<TU_ANON_KEY>'; // reemplaza
+// 2) Configuración de Supabase (reemplaza con tu llave real)
+const supabaseUrl = 'https://xjpynyilaqajdvhxuyup.supabase.co';
+const supabaseKey = '<TU_ANON_KEY>'; // Reemplaza aquí
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// 3) Helper render
-function render(id, html) {
+// 3) Helper para renderizar contenido en el DOM\ nfunction render(id, html) {
   const el = document.getElementById(id);
   if (el) el.innerHTML = html;
 }
 
-// 4) Fetchers\ async function cargarCitas() {
-  const { data, error } = await supabase.from('citas').select('*');
-  render('quotes', error ? 'Error cargando citas.' : data.map(i => `<p>"${i.texto}" — <em>${i.autor}</em></p>`).join(''));
+// 4) Funciones para cargar datos desde Supabase
+async function cargarCitas() {
+  try {
+    const { data, error } = await supabase.from('citas').select('*');
+    render('quotes', error ? 'Error cargando citas.' : data.map(i => `<p>"${i.texto}" — <em>${i.autor}</em></p>`).join(''));
+  } catch (e) {
+    render('quotes', 'Error cargando citas.');
+  }
 }
 
 async function cargarOfertas() {
-  const { data, error } = await supabase.from('ofertas').select('*');
-  render('offers', error ? 'Error cargando ofertas.' : data.map(i => `<p>"${i.titulo}" — ${i.descripcion}</p>`).join(''));
+  try {
+    const { data, error } = await supabase.from('ofertas').select('*');
+    render('offers', error ? 'Error cargando ofertas.' : data.map(i => `<p>"${i.titulo}" — ${i.descripcion}</p>`).join(''));
+  } catch (e) {
+    render('offers', 'Error cargando ofertas.');
+  }
 }
 
 async function cargarFrase() {
-  const { data, error } = await supabase.from('citas').select('*').limit(1);
-  render('phrase', error || !data.length ? 'Error cargando frase.' : `<p>"${data[0].texto}" — <em>${data[0].autor}</em></p>`);
+  try {
+    const { data, error } = await supabase.from('citas').select('*').limit(1);
+    render('phrase', error || !data.length ? 'Error cargando frase.' : `<p>"${data[0].texto}" — <em>${data[0].autor}</em></p>`);
+  } catch (e) {
+    render('phrase', 'Error cargando frase.');
+  }
 }
 
 async function cargarOfertaEspecial() {
-  const { data, error } = await supabase.from('ofertas').select('*').limit(1);
-  render('special', error || !data.length ? 'Error cargando oferta especial.' : `<p>"${data[0].titulo}" — ${data[0].descripcion}</p>`);
+  try {
+    const { data, error } = await supabase.from('ofertas').select('*').limit(1);
+    render('special', error || !data.length ? 'Error cargando oferta especial.' : `<p>"${data[0].titulo}" — ${data[0].descripcion}</p>`);
+  } catch (e) {
+    render('special', 'Error cargando oferta especial.');
+  }
 }
 
 async function cargarReceta() {
-  const { data, error } = await supabase.from('recetas').select('*').limit(1);
-  render('recipe', error || !data.length ? 'Error cargando receta.' : `<p>"${data[0].nombre}" — ${data[0].ingredientes} (${data[0].tiempo} min)</p>`);
+  try {
+    const { data, error } = await supabase.from('recetas').select('*').limit(1);
+    render('recipe', error || !data.length ? 'Error cargando receta.' : `<p>"${data[0].nombre}" — ${data[0].ingredientes} (${data[0].tiempo} min)</p>`);
+  } catch (e) {
+    render('recipe', 'Error cargando receta.');
+  }
 }
 
 async function cargarNoticias() {
-  const { data, error } = await supabase.from('noticias').select('*').limit(1);
-  render('news', error || !data.length ? 'Error cargando noticias.' : `<ul><li>${data[0].viñeta1}</li><li>${data[0].viñeta2}</li><li>${data[0].viñeta3}</li></ul>`);
+  try {
+    const { data, error } = await supabase.from('noticias').select('*').limit(1);
+    render('news', error || !data.length ? 'Error cargando noticias.' : `<ul><li>${data[0].viñeta1}</li><li>${data[0].viñeta2}</li><li>${data[0].viñeta3}</li></ul>`);
+  } catch (e) {
+    render('news', 'Error cargando noticias.');
+  }
 }
 
-// 5) Kickoff
-window.addEventListener('DOMContentLoaded', () => {
-  cargarCitas(); cargarOfertas(); cargarFrase(); cargarOfertaEspecial(); cargarReceta(); cargarNoticias();
+// 5) Ejecuta todas las funciones al cargar el DOM\ nwindow.addEventListener('DOMContentLoaded', () => {
+  cargarCitas();
+  cargarOfertas();
+  cargarFrase();
+  cargarOfertaEspecial();
+  cargarReceta();
+  cargarNoticias();
 });
