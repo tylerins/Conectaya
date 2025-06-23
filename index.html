@@ -1,62 +1,70 @@
-// main.js (corregido y listo para usar)
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ConectaYa!</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-css-reset/dist/reset.min.css">
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      font-size: 1.4rem;
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      margin-left: 1rem;
+    }
+    .emoji {
+      margin-right: 0.4rem;
+    }
+    footer {
+      margin-top: 4rem;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>🚀 <strong>¡Bienvenido a ConectaYa!</strong></h1>
+  <p>Tu centro diario de inspiración, ofertas y más… actualizado en tiempo real.</p>
 
-// 1. Cargar la librería de Supabase desde un CDN en tu HTML así:
-// <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-// 
-// 2. Luego asegúrate que este archivo JS se cargue DESPUÉS del script del CDN de Supabase en el HTML
+  <h2>📖 Citas Inspiradoras</h2>
+  <div id="quotes">Cargando citas...</div>
 
-const supabaseUrl = 'https://nxlqaapdbcbevwnepyerxpr.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54bHFhcGRiY2JldnduZXB5ZXJ4cHgiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTY5Njg4NDk3NCwiZXhwIjoxOTEyNDYwOTc0fQ.ADj8hhVzU1qFphhTr1ujKNeNnoaUawuyFEctUGidNts';
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+  <h2>💰 Ofertas del Día</h2>
+  <div id="offers">Cargando ofertas...</div>
 
-// Cargar citas
-async function cargarCitas() {
-  const { data, error } = await supabase.from('citas').select('*');
-  const contenedor = document.getElementById('quotes');
-  contenedor.innerHTML = error ? 'Error cargando citas.' : data.map(item => `<p>"${item.texto}" — <em>${item.autor}</em></p>`).join('');
-}
+  <h2>🌼 Frase del Día (1ª cita)</h2>
+  <div id="phrase">Cargando frase...</div>
 
-// Cargar ofertas
-async function cargarOfertas() {
-  const { data, error } = await supabase.from('ofertas').select('*');
-  const contenedor = document.getElementById('offers');
-  contenedor.innerHTML = error ? 'Error cargando ofertas.' : data.map(item => `<p><strong>${item.titulo}</strong>: ${item.descripcion}</p>`).join('');
-}
+  <h2>🎤 Oferta Especial (1ª oferta)</h2>
+  <div id="special">Cargando oferta especial...</div>
 
-// Frase del día (1a cita)
-async function cargarFrase() {
-  const { data, error } = await supabase.from('citas').select('*').limit(1);
-  const contenedor = document.getElementById('phrase');
-  contenedor.innerHTML = error || !data.length ? 'Error cargando frase.' : `<p>"${data[0].texto}" — <em>${data[0].autor}</em></p>`;
-}
+  <h2>🍮 Receta Rápida</h2>
+  <div id="recipe">Cargando receta...</div>
 
-// Oferta especial (1a oferta)
-async function cargarOfertaEspecial() {
-  const { data, error } = await supabase.from('ofertas').select('*').limit(1);
-  const contenedor = document.getElementById('special');
-  contenedor.innerHTML = error || !data.length ? 'Error cargando oferta especial.' : `<p><strong>${data[0].titulo}</strong>: ${data[0].descripcion}</p>`;
-}
+  <h2>🗞️ Noticia en 3 Viñetas</h2>
+  <div id="news">Cargando noticias...</div>
 
-// Receta rápida
-async function cargarReceta() {
-  const { data, error } = await supabase.from('recetas').select('*').limit(1);
-  const contenedor = document.getElementById('recipe');
-  contenedor.innerHTML = error || !data.length ? 'Error cargando receta.' : `<p><strong>${data[0].nombre}</strong>: ${data[0].ingredientes} (${data[0].tiempo} min)</p>`;
-}
+  <footer>
+    © 2025 ConectaYa – Diseñado por Iván y Kael con ❤️ y café ☕
+  </footer>
 
-// Noticias en 3 viñetas
-async function cargarNoticias() {
-  const { data, error } = await supabase.from('noticias').select('*').limit(1);
-  const contenedor = document.getElementById('news');
-  contenedor.innerHTML = error || !data.length ? 'Error cargando noticias.' : `<ul><li>${data[0].viñeta1}</li><li>${data[0].viñeta2}</li><li>${data[0].viñeta3}</li></ul>`;
-}
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
-// Cargar todo al iniciar
-window.addEventListener('DOMContentLoaded', () => {
-  cargarCitas();
-  cargarOfertas();
-  cargarFrase();
-  cargarOfertaEspecial();
-  cargarReceta();
-  cargarNoticias();
-});
+  <!-- Script principal -->
+  <script src="main.js" defer></script>
+</body>
+</html>
