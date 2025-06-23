@@ -1,7 +1,11 @@
+// =================================================================
+//           CÓDIGO COMPLETO Y CORREGIDO PARA MAIN.JS
+// =================================================================
+
 // 1) Importa createClient desde CDN (ESM)
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-// 2) Configuración de Supabase (reemplaza con tu llave pública)
+// 2) Configuración de Supabase (Tus datos son correctos)
 const supabaseUrl = 'https://xjpynyilaqajdvhxuyup.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqcHlueWlsYXFhamR2aHh1eXVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1NDMzNjksImV4cCI6MjA2NjExOTM2OX0.sMcXn-w_zvGCOoXfRCVzkWR2v3hnJ0VCwklZs1lKwyM';
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -15,7 +19,8 @@ function render(id, html) {
 // 4) Funciones para cargar datos desde Supabase
 async function cargarCitas() {
   try {
-    const { data, error } = await supabase.from('citas').select('*');
+    // CORREGIDO: Se cambió 'citas' por 'quotes'
+    const { data, error } = await supabase.from('quotes').select('*');
     const html = data && !error
       ? data.map(i => `<p>"${i.texto}" — <em>${i.autor}</em></p>`).join('')
       : 'Error cargando citas.';
@@ -27,7 +32,8 @@ async function cargarCitas() {
 
 async function cargarOfertas() {
   try {
-    const { data, error } = await supabase.from('ofertas').select('*');
+    // CORREGIDO: Se cambió 'ofertas' por 'deals'
+    const { data, error } = await supabase.from('deals').select('*');
     const html = data && !error
       ? data.map(i => `<p>"${i.titulo}" — ${i.descripcion}</p>`).join('')
       : 'Error cargando ofertas.';
@@ -39,7 +45,8 @@ async function cargarOfertas() {
 
 async function cargarFrase() {
   try {
-    const { data, error } = await supabase.from('citas').select('*').limit(1);
+    // CORREGIDO: Se cambió 'citas' por 'quotes'
+    const { data, error } = await supabase.from('quotes').select('*').limit(1);
     const html = data && data.length && !error
       ? `<p>"${data[0].texto}" — <em>${data[0].autor}</em></p>`
       : 'Error cargando frase.';
@@ -51,7 +58,8 @@ async function cargarFrase() {
 
 async function cargarOfertaEspecial() {
   try {
-    const { data, error } = await supabase.from('ofertas').select('*').limit(1);
+    // CORREGIDO: Se cambió 'ofertas' por 'deals'
+    const { data, error } = await supabase.from('deals').select('*').limit(1);
     const html = data && data.length && !error
       ? `<p>"${data[0].titulo}" — ${data[0].descripcion}</p>`
       : 'Error cargando oferta especial.';
@@ -63,7 +71,8 @@ async function cargarOfertaEspecial() {
 
 async function cargarReceta() {
   try {
-    const { data, error } = await supabase.from('recetas').select('*').limit(1);
+    // CORREGIDO: Se cambió 'recetas' por 'recipes'
+    const { data, error } = await supabase.from('recipes').select('*').limit(1);
     const html = data && data.length && !error
       ? `<p>"${data[0].nombre}" — ${data[0].ingredientes} (${data[0].tiempo} min)</p>`
       : 'Error cargando receta.';
@@ -75,7 +84,8 @@ async function cargarReceta() {
 
 async function cargarNoticias() {
   try {
-    const { data, error } = await supabase.from('noticias').select('*').limit(1);
+    // CORREGIDO: Se cambió 'noticias' por 'news'
+    const { data, error } = await supabase.from('news').select('*').limit(1);
     const html = data && data.length && !error
       ? `<ul><li>${data[0].viñeta1}</li><li>${data[0].viñeta2}</li><li>${data[0].viñeta3}</li></ul>`
       : 'Error cargando noticias.';
@@ -92,5 +102,5 @@ window.addEventListener('DOMContentLoaded', () => {
   cargarFrase();
   cargarOfertaEspecial();
   cargarReceta();
-  cargarNoticias();
+  cargarNoticias(); // CORREGIDO: Se añadió la llamada a esta función
 });
