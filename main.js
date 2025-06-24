@@ -1,5 +1,5 @@
 // =================================================================
-//        VERSIÓN FINAL Y DEFINITIVA DE MAIN.JS (CON IMÁGENES)
+//     VERSIÓN FINAL DEFINITIVA DE MAIN.JS (CON IMÁGENES Y FIXES)
 // =================================================================
 
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
@@ -91,19 +91,35 @@ async function cargarReceta() {
         ? `<img src="${recipe.imagen_url}" alt="Imagen de ${recipe.nombre}" class="card-image">`
         : '';
 
-      let ingredientsHtml = '<li>No se especificaron ingredientes.</li>';
-      if (Array.isArray(recipe.ingredientes) && recipe.ingredientes.length > 0) {
-        ingredientsHtml = recipe.ingredientes.map(ing => `<li>${ing}</li>`).join('');
-      } else if (recipe.ingredientes) {
-        ingredientsHtml = `<li>${recipe.ingredientes}</li>`;
+      // Función interna para procesar las listas de forma segura
+      function parseList(listData) {
+        if (Array.isArray(listData)) return listData;
+        if (typeof listData === 'string') {
+          try {
+            // Intenta procesarlo como un JSON array: ["item1", "item2"]
+            // o como un array de PostgreSQL: {"item1","item2"}
+             const cleanedString = listData
+                .replace(/^{/, '[')
+                .replace(/}$/, ']')
+                .replace(/","/g, '","');
+            return JSON.parse(cleanedString);
+          } catch (e) {
+            return [listData]; // Si todo falla, lo trata como un solo elemento
+          }
+        }
+        return [];
       }
 
-      let stepsHtml = '<li>No se especificaron pasos.</li>';
-      if (Array.isArray(recipe.pasos) && recipe.pasos.length > 0) {
-        stepsHtml = recipe.pasos.map(step => `<li>${step}</li>`).join('');
-      } else if (recipe.pasos) {
-        stepsHtml = `<li>${recipe.pasos}</li>`;
-      }
+      const ingredientsList = parseList(recipe.ingredientes);
+      const stepsList = parseList(recipe.pasos);
+      
+      const ingredientsHtml = ingredientsList.length > 0 
+        ? ingredientsList.map(ing => `<li>${ing}</li>`).join('')
+        : '<li>No se especificaron ingredientes.</li>';
+
+      const stepsHtml = stepsList.length > 0
+        ? stepsList.map(step => `<li>${step}</li>`).join('')
+        : '<li>No se especificaron pasos.</li>';
 
       const html = `
         ${imageHtml}
