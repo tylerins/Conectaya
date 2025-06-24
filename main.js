@@ -1,5 +1,5 @@
 // =================================================================
-//     CÓDIGO MAIN.JS ACTUALIZADO CON ESTILOS DE CONTENIDO
+//        VERSIÓN FINAL Y DEFINITIVA DE MAIN.JS (25/06/2025)
 // =================================================================
 
 // 1) Importa createClient desde CDN (ESM)
@@ -18,7 +18,6 @@ function render(id, html) {
 
 // 4) Funciones para cargar datos desde Supabase
 
-// --- Citas con nuevo estilo de bloque ---
 async function cargarCitas() {
   try {
     const { data, error } = await supabase.from('quotes').select('*');
@@ -29,12 +28,12 @@ async function cargarCitas() {
         `).join('')
       : 'Error cargando citas.';
     render('quotes', html);
-  } catch {
+  } catch(e) {
+    console.error("Error en cargarCitas:", e);
     render('quotes', 'Error cargando citas.');
   }
 }
 
-// --- Ofertas con nuevo estilo de botón ---
 async function cargarOfertas() {
   try {
     const { data, error } = await supabase.from('deals').select('*');
@@ -47,12 +46,12 @@ async function cargarOfertas() {
         `).join('')
       : 'Error cargando ofertas.';
     render('offers', html);
-  } catch {
+  } catch(e) {
+    console.error("Error en cargarOfertas:", e);
     render('offers', 'Error cargando ofertas.');
   }
 }
 
-// --- Frase del día con estilo de bloque ---
 async function cargarFrase() {
   try {
     const { data, error } = await supabase.from('quotes').select('*').limit(1);
@@ -63,12 +62,12 @@ async function cargarFrase() {
         `
       : 'Error cargando frase.';
     render('phrase', html);
-  } catch {
+  } catch(e) {
+    console.error("Error en cargarFrase:", e);
     render('phrase', 'Error cargando frase.');
   }
 }
 
-// --- Oferta especial con estilo de botón ---
 async function cargarOfertaEspecial() {
   try {
     const { data, error } = await supabase.from('deals').select('*').limit(1);
@@ -81,23 +80,38 @@ async function cargarOfertaEspecial() {
         `
       : 'Error cargando oferta especial.';
     render('special', html);
-  } catch {
+  } catch(e) {
+    console.error("Error en cargarOfertaEspecial:", e);
     render('special', 'Error cargando oferta especial.');
   }
 }
 
-// --- Receta con formato de listas para ingredientes y pasos ---
 async function cargarReceta() {
   try {
     const { data, error } = await supabase.from('recipes').select('*').limit(1);
+
     if (data && data.length > 0 && !error) {
       const recipe = data[0];
-      // Creamos listas HTML para los ingredientes y los pasos
-      const ingredientsHtml = recipe.ingredientes.map(ing => `<li>${ing}</li>`).join('');
-      const stepsHtml = recipe.pasos.map(step => `<li>${step}</li>`).join('');
+
+      // Comprueba si los ingredientes son una lista (array) antes de procesarlos.
+      let ingredientsHtml = '<li>No se especificaron ingredientes.</li>';
+      if (Array.isArray(recipe.ingredientes) && recipe.ingredientes.length > 0) {
+        ingredientsHtml = recipe.ingredientes.map(ing => `<li>${ing}</li>`).join('');
+      } else if (recipe.ingredientes) {
+        ingredientsHtml = `<li>${recipe.ingredientes}</li>`;
+      }
+
+      // Hacemos la misma comprobación para los pasos.
+      let stepsHtml = '<li>No se especificaron pasos.</li>';
+      if (Array.isArray(recipe.pasos) && recipe.pasos.length > 0) {
+        stepsHtml = recipe.pasos.map(step => `<li>${step}</li>`).join('');
+      } else if (recipe.pasos) {
+        stepsHtml = `<li>${recipe.pasos}</li>`;
+      }
 
       const html = `
-        <p><strong>Tiempo:</strong> ${recipe.tiempo} minutos</p>
+        <h4>${recipe.nombre || 'Receta sin nombre'}</h4>
+        <p><strong>Tiempo:</strong> ${recipe.tiempo || 'N/A'} minutos</p>
         <h5>Ingredientes:</h5>
         <ul class="recipe-list">${ingredientsHtml}</ul>
         <h5>Pasos:</h5>
@@ -107,12 +121,12 @@ async function cargarReceta() {
     } else {
       render('recipe', 'Error cargando receta.');
     }
-  } catch {
+  } catch (e) {
+    console.error("Error detallado en la función cargarReceta:", e);
     render('recipe', 'Error cargando receta.');
   }
 }
 
-// --- Noticias (ya tenía una buena estructura) ---
 async function cargarNoticias() {
   try {
     const { data, error } = await supabase.from('news').select('*').limit(1);
@@ -120,7 +134,8 @@ async function cargarNoticias() {
       ? `<h4><a href="${data[0].enlace}" target="_blank" rel="noopener noreferrer">${data[0].titular}</a></h4><p>${data[0].resumen}</p>`
       : 'Error cargando noticias.';
     render('news', html);
-  } catch {
+  } catch(e) {
+    console.error("Error en cargarNoticias:", e);
     render('news', 'Error cargando noticias.');
   }
 }
