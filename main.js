@@ -1,22 +1,17 @@
 // =================================================================
-//        VERSIÓN FINAL Y DEFINITIVA DE MAIN.JS (25/06/2025)
+//        VERSIÓN FINAL Y DEFINITIVA DE MAIN.JS (CON IMÁGENES)
 // =================================================================
 
-// 1) Importa createClient desde CDN (ESM)
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-// 2) Configuración de Supabase
 const supabaseUrl = 'https://xjpynyilaqajdvhxuyup.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqcHlueWlsYXFhamR2aHh1eXVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1NDMzNjksImV4cCI6MjA2NjExOTM2OX0.sMcXn-w_zvGCOoXfRCVzkWR2v3hnJ0VCwklZs1lKwyM';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// 3) Helper para renderizar contenido en el DOM
 function render(id, html) {
   const el = document.getElementById(id);
   if (el) el.innerHTML = html;
 }
-
-// 4) Funciones para cargar datos desde Supabase
 
 async function cargarCitas() {
   try {
@@ -89,11 +84,13 @@ async function cargarOfertaEspecial() {
 async function cargarReceta() {
   try {
     const { data, error } = await supabase.from('recipes').select('*').limit(1);
-
     if (data && data.length > 0 && !error) {
       const recipe = data[0];
+      
+      const imageHtml = recipe.imagen_url
+        ? `<img src="${recipe.imagen_url}" alt="Imagen de ${recipe.nombre}" class="card-image">`
+        : '';
 
-      // Comprueba si los ingredientes son una lista (array) antes de procesarlos.
       let ingredientsHtml = '<li>No se especificaron ingredientes.</li>';
       if (Array.isArray(recipe.ingredientes) && recipe.ingredientes.length > 0) {
         ingredientsHtml = recipe.ingredientes.map(ing => `<li>${ing}</li>`).join('');
@@ -101,7 +98,6 @@ async function cargarReceta() {
         ingredientsHtml = `<li>${recipe.ingredientes}</li>`;
       }
 
-      // Hacemos la misma comprobación para los pasos.
       let stepsHtml = '<li>No se especificaron pasos.</li>';
       if (Array.isArray(recipe.pasos) && recipe.pasos.length > 0) {
         stepsHtml = recipe.pasos.map(step => `<li>${step}</li>`).join('');
@@ -110,20 +106,24 @@ async function cargarReceta() {
       }
 
       const html = `
-        <h4>${recipe.nombre || 'Receta sin nombre'}</h4>
-        <p><strong>Tiempo:</strong> ${recipe.tiempo || 'N/A'} minutos</p>
-        <h5>Ingredientes:</h5>
-        <ul class="recipe-list">${ingredientsHtml}</ul>
-        <h5>Pasos:</h5>
-        <ol class="recipe-list">${stepsHtml}</ol>
+        ${imageHtml}
+        <div class="card-content">
+          <h2>🍮 Receta Rápida</h2>
+          <h4>${recipe.nombre || 'Receta sin nombre'}</h4>
+          <p><strong>Tiempo:</strong> ${recipe.tiempo || 'N/A'} minutos</p>
+          <h5>Ingredientes:</h5>
+          <ul class="recipe-list">${ingredientsHtml}</ul>
+          <h5>Pasos:</h5>
+          <ol class="recipe-list">${stepsHtml}</ol>
+        </div>
       `;
       render('recipe', html);
     } else {
-      render('recipe', 'Error cargando receta.');
+      render('recipe', '<div class="card-content"><h2>🍮 Receta Rápida</h2><p>Error cargando receta.</p></div>');
     }
   } catch (e) {
     console.error("Error detallado en la función cargarReceta:", e);
-    render('recipe', 'Error cargando receta.');
+    render('recipe', '<div class="card-content"><h2>🍮 Receta Rápida</h2><p>Error cargando receta.</p></div>');
   }
 }
 
@@ -140,7 +140,6 @@ async function cargarNoticias() {
   }
 }
 
-// 5) Ejecuta todas las funciones al cargar el DOM
 window.addEventListener('DOMContentLoaded', () => {
   cargarCitas();
   cargarOfertas();
