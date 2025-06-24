@@ -1,5 +1,5 @@
 // =================================================================
-//           CÓDIGO COMPLETO Y FINAL PARA MAIN.JS
+//     CÓDIGO MAIN.JS ACTUALIZADO CON ESTILOS DE CONTENIDO
 // =================================================================
 
 // 1) Importa createClient desde CDN (ESM)
@@ -17,11 +17,16 @@ function render(id, html) {
 }
 
 // 4) Funciones para cargar datos desde Supabase
+
+// --- Citas con nuevo estilo de bloque ---
 async function cargarCitas() {
   try {
     const { data, error } = await supabase.from('quotes').select('*');
     const html = data && !error
-      ? data.map(i => `<p>"${i.texto}" — <em>${i.autor}</em></p>`).join('')
+      ? data.map(i => `
+          <blockquote class="quote-text">"${i.texto}"</blockquote>
+          <cite class="quote-author">— ${i.autor}</cite>
+        `).join('')
       : 'Error cargando citas.';
     render('quotes', html);
   } catch {
@@ -29,12 +34,17 @@ async function cargarCitas() {
   }
 }
 
+// --- Ofertas con nuevo estilo de botón ---
 async function cargarOfertas() {
   try {
     const { data, error } = await supabase.from('deals').select('*');
     const html = data && !error
-      // CORREGIDO: Las ofertas ahora son enlaces funcionales
-      ? data.map(i => `<p><a href="${i.url}" target="_blank" rel="noopener noreferrer">${i.titulo}</a></p>`).join('')
+      ? data.map(i => `
+          <div class="offer-item">
+            <p>${i.titulo} - <em>${i.descripcion || ''}</em></p>
+            <a href="${i.url}" target="_blank" rel="noopener noreferrer" class="offer-button">Ver Oferta</a>
+          </div>
+        `).join('')
       : 'Error cargando ofertas.';
     render('offers', html);
   } catch {
@@ -42,11 +52,15 @@ async function cargarOfertas() {
   }
 }
 
+// --- Frase del día con estilo de bloque ---
 async function cargarFrase() {
   try {
     const { data, error } = await supabase.from('quotes').select('*').limit(1);
     const html = data && data.length && !error
-      ? `<p>"${data[0].texto}" — <em>${data[0].autor}</em></p>`
+      ? `
+          <blockquote class="quote-text">"${data[0].texto}"</blockquote>
+          <cite class="quote-author">— ${data[0].autor}</cite>
+        `
       : 'Error cargando frase.';
     render('phrase', html);
   } catch {
@@ -54,12 +68,17 @@ async function cargarFrase() {
   }
 }
 
+// --- Oferta especial con estilo de botón ---
 async function cargarOfertaEspecial() {
   try {
     const { data, error } = await supabase.from('deals').select('*').limit(1);
     const html = data && data.length && !error
-       // CORREGIDO: La oferta especial ahora es un enlace funcional
-      ? `<p><a href="${data[0].url}" target="_blank" rel="noopener noreferrer">${data[0].titulo}</a></p>`
+      ? `
+          <div class="offer-item">
+            <p>${data[0].titulo} - <em>${data[0].descripcion || ''}</em></p>
+            <a href="${data[0].url}" target="_blank" rel="noopener noreferrer" class="offer-button">Ver Oferta</a>
+          </div>
+        `
       : 'Error cargando oferta especial.';
     render('special', html);
   } catch {
@@ -67,23 +86,37 @@ async function cargarOfertaEspecial() {
   }
 }
 
+// --- Receta con formato de listas para ingredientes y pasos ---
 async function cargarReceta() {
   try {
     const { data, error } = await supabase.from('recipes').select('*').limit(1);
-    const html = data && data.length && !error
-      ? `<p>"${data[0].nombre}" — ${data[0].ingredientes} (${data[0].tiempo} min)</p>`
-      : 'Error cargando receta.';
-    render('recipe', html);
+    if (data && data.length > 0 && !error) {
+      const recipe = data[0];
+      // Creamos listas HTML para los ingredientes y los pasos
+      const ingredientsHtml = recipe.ingredientes.map(ing => `<li>${ing}</li>`).join('');
+      const stepsHtml = recipe.pasos.map(step => `<li>${step}</li>`).join('');
+
+      const html = `
+        <p><strong>Tiempo:</strong> ${recipe.tiempo} minutos</p>
+        <h5>Ingredientes:</h5>
+        <ul class="recipe-list">${ingredientsHtml}</ul>
+        <h5>Pasos:</h5>
+        <ol class="recipe-list">${stepsHtml}</ol>
+      `;
+      render('recipe', html);
+    } else {
+      render('recipe', 'Error cargando receta.');
+    }
   } catch {
     render('recipe', 'Error cargando receta.');
   }
 }
 
+// --- Noticias (ya tenía una buena estructura) ---
 async function cargarNoticias() {
   try {
     const { data, error } = await supabase.from('news').select('*').limit(1);
     const html = data && data.length && !error
-      // CORREGIDO: Adaptado a las columnas 'titular', 'enlace' y 'resumen'
       ? `<h4><a href="${data[0].enlace}" target="_blank" rel="noopener noreferrer">${data[0].titular}</a></h4><p>${data[0].resumen}</p>`
       : 'Error cargando noticias.';
     render('news', html);
