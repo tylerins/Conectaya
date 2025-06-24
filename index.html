@@ -14,9 +14,9 @@
   <style>
     /* Estilos generales del cuerpo de la página */
     body {
-        font-family: 'Inter', sans-serif; /* Usa la nueva fuente que hemos importado */
-        background-color: #121212; /* Un negro un poco más suave que el negro puro */
-        color: #E0E0E0; /* Un blanco un poco menos brillante, más cómodo para la vista */
+        font-family: 'Inter', sans-serif;
+        background-color: #121212;
+        color: #E0E0E0;
         line-height: 1.6;
         margin: 0;
         padding: 20px;
@@ -25,17 +25,17 @@
     /* Estilo para el contenedor principal que centrará el contenido */
     main {
         max-width: 800px;
-        margin: 0 auto; /* Centra el contenido en la página */
+        margin: 0 auto;
     }
 
     /* Estilo de las "Tarjetas" para cada sección */
     .card {
-        background-color: #1E1E1E; /* Un color de fondo oscuro para la tarjeta */
-        border: 1px solid #2D2D2D; /* Un borde muy sutil */
-        border-radius: 12px; /* Esquinas redondeadas, le da un toque moderno */
-        padding: 24px; /* Espacio interior para que el contenido no se pegue a los bordes */
-        margin-bottom: 24px; /* Espacio entre tarjetas */
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Una sombra ligera para darle profundidad */
+        background-color: #1E1E1E;
+        border: 1px solid #2D2D2D;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     /* Estilos para los títulos y enlaces */
@@ -56,12 +56,12 @@
         margin-bottom: 1rem;
     }
 
-    p, div[id] { /* Aplicamos el estilo a los párrafos y a los divs de contenido */
-        margin-left: 0; /* Ya no necesitamos el margen izquierdo gracias al padding de la tarjeta */
+    p, div[id] {
+        margin-left: 0;
     }
 
     a {
-        color: #BB86FC; /* Un color violeta que contrasta bien en temas oscuros */
+        color: #BB86FC;
         text-decoration: none;
     }
 
@@ -75,6 +75,15 @@
         font-size: 0.9rem; 
         color: #666; 
     }
+    
+    /* --- CÓDIGO CSS AÑADIDO --- */
+    .scrollable-card-content {
+      max-height: 400px; /* Esta es la altura máxima. Puedes ajustarla a tu gusto */
+      overflow-y: auto;  /* Muestra una barra de scroll vertical si el contenido se pasa de la altura */
+      padding-right: 10px; /* Un pequeño espacio para que la barra de scroll no se pegue al texto */
+    }
+    /* --- FIN DEL CÓDIGO CSS AÑADIDO --- */
+
   </style>
 </head>
 <body>
@@ -85,12 +94,12 @@
 
     <div class="card">
       <h2>📖 Citas Inspiradoras</h2>
-      <div id="quotes">Cargando citas...</div>
+      <div id="quotes" class="scrollable-card-content">Cargando citas...</div>
     </div>
 
     <div class="card">
       <h2>💰 Ofertas del Día</h2>
-      <div id="offers">Cargando ofertas...</div>
+      <div id="offers" class="scrollable-card-content">Cargando ofertas...</div>
     </div>
 
     <div class="card">
