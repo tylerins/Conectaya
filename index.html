@@ -4,46 +4,119 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ConectaYa!</title>
+  
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-css-reset/dist/reset.min.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
+    /* Estilos generales del cuerpo de la página */
     body {
-      background-color: #111;
-      color: #fff;
-      font-family: 'Segoe UI', sans-serif;
-      padding: 2rem;
-      line-height: 1.6;
+        font-family: 'Inter', sans-serif; /* Usa la nueva fuente que hemos importado */
+        background-color: #121212; /* Un negro un poco más suave que el negro puro */
+        color: #E0E0E0; /* Un blanco un poco menos brillante, más cómodo para la vista */
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
     }
-    h1 { font-size: 2rem; margin-bottom: 1rem; }
-    h2 { font-size: 1.4rem; margin-top: 2rem; margin-bottom: 0.5rem; }
-    p { margin-left: 1rem; }
-    footer { margin-top: 4rem; font-size: 0.9rem; color: #ccc; }
+
+    /* Estilo para el contenedor principal que centrará el contenido */
+    main {
+        max-width: 800px;
+        margin: 0 auto; /* Centra el contenido en la página */
+    }
+
+    /* Estilo de las "Tarjetas" para cada sección */
+    .card {
+        background-color: #1E1E1E; /* Un color de fondo oscuro para la tarjeta */
+        border: 1px solid #2D2D2D; /* Un borde muy sutil */
+        border-radius: 12px; /* Esquinas redondeadas, le da un toque moderno */
+        padding: 24px; /* Espacio interior para que el contenido no se pegue a los bordes */
+        margin-bottom: 24px; /* Espacio entre tarjetas */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Una sombra ligera para darle profundidad */
+    }
+
+    /* Estilos para los títulos y enlaces */
+    h1, h2 {
+        color: #FFFFFF;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        border-bottom: 1px solid #333;
+        padding-bottom: 10px;
+        margin-bottom: 1rem;
+    }
+
+    p, div[id] { /* Aplicamos el estilo a los párrafos y a los divs de contenido */
+        margin-left: 0; /* Ya no necesitamos el margen izquierdo gracias al padding de la tarjeta */
+    }
+
+    a {
+        color: #BB86FC; /* Un color violeta que contrasta bien en temas oscuros */
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+    
+    footer { 
+        text-align: center;
+        margin-top: 4rem; 
+        font-size: 0.9rem; 
+        color: #666; 
+    }
   </style>
 </head>
 <body>
-  <h1>🚀 <strong>¡Bienvenido a ConectaYa!</strong></h1>
-  <p>Tu centro diario de inspiración, ofertas y más… actualizado en tiempo real.</p>
 
-  <h2>📖 Citas Inspiradoras</h2>
-  <div id="quotes">Cargando citas...</div>
+  <main>
+    <h1>🚀 <strong>¡Bienvenido a ConectaYa!</strong></h1>
+    <p style="text-align: center; margin-bottom: 2rem;">Tu centro diario de inspiración, ofertas y más… actualizado en tiempo real.</p>
 
-  <h2>💰 Ofertas del Día</h2>
-  <div id="offers">Cargando ofertas...</div>
+    <div class="card">
+      <h2>📖 Citas Inspiradoras</h2>
+      <div id="quotes">Cargando citas...</div>
+    </div>
 
-  <h2>🌼 Frase del Día (1ª cita)</h2>
-  <div id="phrase">Cargando frase...</div>
+    <div class="card">
+      <h2>💰 Ofertas del Día</h2>
+      <div id="offers">Cargando ofertas...</div>
+    </div>
 
-  <h2>🎤 Oferta Especial (1ª oferta)</h2>
-  <div id="special">Cargando oferta especial...</div>
+    <div class="card">
+      <h2>🌼 Frase del Día</h2>
+      <div id="phrase">Cargando frase...</div>
+    </div>
 
-  <h2>🍮 Receta Rápida</h2>
-  <div id="recipe">Cargando receta...</div>
+    <div class="card">
+      <h2>🎤 Oferta Especial</h2>
+      <div id="special">Cargando oferta especial...</div>
+    </div>
 
-  <h2>🗞️ Noticia en 3 Viñetas</h2>
-  <div id="news">Cargando noticias...</div>
+    <div class="card">
+      <h2>🍮 Receta Rápida</h2>
+      <div id="recipe">Cargando receta...</div>
+    </div>
+    
+    <div class="card">
+      <h2>🗞️ Noticia</h2>
+      <div id="news">Cargando noticias...</div>
+    </div>
+
+  </main>
 
   <footer>© 2025 ConectaYa – Diseñado por Iván y Kael con ❤️ y café ☕</footer>
 
-  <!-- Carga tu script como módulo ESM -->
   <script type="module" src="main.js"></script>
 </body>
 </html>
