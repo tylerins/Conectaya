@@ -1,5 +1,5 @@
 // =================================================================
-//     VERSIÓN FINAL DEFINITIVA DE MAIN.JS (CON IMÁGENES Y FIXES)
+//     MAIN.JS - VERSIÓN FINAL CON CONTENIDO ESPECIAL SEPARADO
 // =================================================================
 
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
@@ -47,9 +47,11 @@ async function cargarOfertas() {
   }
 }
 
+// --- VERSIÓN MEJORADA ---
 async function cargarFrase() {
   try {
-    const { data, error } = await supabase.from('quotes').select('*').limit(1);
+    // Lee de la nueva tabla 'special_quotes' para no repetir contenido
+    const { data, error } = await supabase.from('special_quotes').select('*').limit(1);
     const html = data && data.length && !error
       ? `
           <blockquote class="quote-text">"${data[0].texto}"</blockquote>
@@ -63,9 +65,11 @@ async function cargarFrase() {
   }
 }
 
+// --- VERSIÓN MEJORADA ---
 async function cargarOfertaEspecial() {
   try {
-    const { data, error } = await supabase.from('deals').select('*').limit(1);
+    // Lee de la nueva tabla 'special_deals' para no repetir contenido
+    const { data, error } = await supabase.from('special_deals').select('*').limit(1);
     const html = data && data.length && !error
       ? `
           <div class="offer-item">
@@ -91,20 +95,14 @@ async function cargarReceta() {
         ? `<img src="${recipe.imagen_url}" alt="Imagen de ${recipe.nombre}" class="card-image">`
         : '';
 
-      // Función interna para procesar las listas de forma segura
       function parseList(listData) {
         if (Array.isArray(listData)) return listData;
         if (typeof listData === 'string') {
           try {
-            // Intenta procesarlo como un JSON array: ["item1", "item2"]
-            // o como un array de PostgreSQL: {"item1","item2"}
-             const cleanedString = listData
-                .replace(/^{/, '[')
-                .replace(/}$/, ']')
-                .replace(/","/g, '","');
+            const cleanedString = listData.replace(/^{/, '[').replace(/}$/, ']').replace(/","/g, '","');
             return JSON.parse(cleanedString);
           } catch (e) {
-            return [listData]; // Si todo falla, lo trata como un solo elemento
+            return [listData];
           }
         }
         return [];
@@ -143,13 +141,23 @@ async function cargarReceta() {
   }
 }
 
+// --- VERSIÓN MEJORADA ---
 async function cargarNoticias() {
   try {
     const { data, error } = await supabase.from('news').select('*').limit(1);
-    const html = data && data.length && !error
-      ? `<h4><a href="${data[0].enlace}" target="_blank" rel="noopener noreferrer">${data[0].titular}</a></h4><p>${data[0].resumen}</p>`
-      : 'Error cargando noticias.';
-    render('news', html);
+    if (data && data.length > 0 && !error) {
+        const newsItem = data[0];
+        // Ahora también mostramos la categoría que genera la IA
+        const categoryHtml = newsItem.categoria ? `<span class="category-tag">${newsItem.categoria}</span>` : '';
+        const html = `
+            ${categoryHtml}
+            <h4><a href="${newsItem.enlace}" target="_blank" rel="noopener noreferrer">${newsItem.titular}</a></h4>
+            <p>${newsItem.resumen}</p>
+        `;
+        render('news', html);
+    } else {
+        render('news', 'Error cargando noticias.');
+    }
   } catch(e) {
     console.error("Error en cargarNoticias:", e);
     render('news', 'Error cargando noticias.');
