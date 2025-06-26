@@ -47,7 +47,7 @@ async function cargarOfertas() {
   }
 }
 
-// --- VERSIÓN MEJORADA ---
+// --- VERSIÓN CORREGIDA ---
 async function cargarFrase() {
   try {
     // Lee de la nueva tabla 'special_quotes' para no repetir contenido
@@ -65,20 +65,26 @@ async function cargarFrase() {
   }
 }
 
-// --- VERSIÓN MEJORADA ---
+// --- VERSIÓN CORREGIDA ---
 async function cargarOfertaEspecial() {
   try {
     // Lee de la nueva tabla 'special_deals' para no repetir contenido
     const { data, error } = await supabase.from('special_deals').select('*').limit(1);
-    const html = data && data.length && !error
-      ? `
-          <div class="offer-item">
-            <p>${data[0].titulo} - <em>${data[0].descripcion || ''}</em></p>
-            <a href="${data[0].url}" target="_blank" rel="noopener noreferrer" class="offer-button">Ver Oferta</a>
-          </div>
-        `
-      : 'Error cargando oferta especial.';
-    render('special', html);
+    if (data && data.length > 0 && !error) {
+        const specialDeal = data[0];
+        const buttonHtml = specialDeal.url
+            ? `<a href="${specialDeal.url}" target="_blank" rel="noopener noreferrer" class="offer-button">Ver Oferta</a>`
+            : '';
+        const html = `
+            <div class="offer-item">
+                <p>${specialDeal.titulo} - <em>${specialDeal.descripcion || ''}</em></p>
+                ${buttonHtml}
+            </div>
+        `;
+        render('special', html);
+    } else {
+        render('special', 'Error cargando oferta especial.');
+    }
   } catch(e) {
     console.error("Error en cargarOfertaEspecial:", e);
     render('special', 'Error cargando oferta especial.');
@@ -141,13 +147,11 @@ async function cargarReceta() {
   }
 }
 
-// --- VERSIÓN MEJORADA ---
 async function cargarNoticias() {
   try {
     const { data, error } = await supabase.from('news').select('*').limit(1);
     if (data && data.length > 0 && !error) {
         const newsItem = data[0];
-        // Ahora también mostramos la categoría que genera la IA
         const categoryHtml = newsItem.categoria ? `<span class="category-tag">${newsItem.categoria}</span>` : '';
         const html = `
             ${categoryHtml}
