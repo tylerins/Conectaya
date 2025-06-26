@@ -20,7 +20,6 @@
         line-height: 1.6;
         margin: 0;
         padding: 20px;
-        /* -- Propiedades añadidas para el efecto aurora -- */
         position: relative;
         overflow-x: hidden;
         isolation: isolate;
@@ -60,14 +59,14 @@
     
     /* --- ESTILOS DE LAS TARJETAS --- */
     .card {
-        background-color: rgba(30, 30, 30, 0.7); /* Ligeramente transparente para ver el fondo */
+        background-color: rgba(30, 30, 30, 0.7);
         border: 1px solid #2D2D2D;
         border-radius: 12px;
         margin-bottom: 24px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         overflow: hidden;
         padding: 0;
-        backdrop-filter: blur(10px); /* Efecto de desenfoque para el fondo de la tarjeta */
+        backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
     }
     .card-image {
@@ -111,6 +110,18 @@
     .recipe-list { padding-left: 20px; margin-top: 10px; }
     .recipe-list li { margin-bottom: 8px; }
     .card-content h4 { margin-top: 0; }
+    
+    .category-tag {
+        display: inline-block;
+        background-color: #03DAC5; /* Un color turquesa que contrasta bien */
+        color: #121212;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 0.8em;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
 
     /* --- FOOTER --- */
     footer { 
@@ -125,11 +136,10 @@
     body::after {
         content: "";
         position: absolute;
-        z-index: -1; /* Lo pone detrás de todo el contenido */
+        z-index: -1;
         border-radius: 50%;
         filter: blur(100px);
     }
-
     body::before {
         background: radial-gradient(circle, rgba(187, 134, 252, 0.2), transparent 60%);
         width: 400px;
@@ -138,7 +148,6 @@
         left: -150px;
         animation: move-aurora-1 15s infinite alternate ease-in-out;
     }
-
     body::after {
         background: radial-gradient(circle, rgba(3, 218, 197, 0.15), transparent 70%);
         width: 500px;
@@ -148,12 +157,10 @@
         animation: move-aurora-2 20s infinite alternate ease-in-out;
         animation-delay: -5s;
     }
-
     @keyframes move-aurora-1 {
         from { transform: translate(-50px, -50px) rotate(0deg); }
         to { transform: translate(100px, 100px) rotate(360deg); }
     }
-
     @keyframes move-aurora-2 {
         from { transform: translate(50px, 50px) rotate(0deg); }
         to { transform: translate(-100px, -100px) rotate(180deg); }
@@ -175,8 +182,8 @@
 
     <div class="card">
       <div class="card-content">
-        <h2>💰 Ofertas del Día</h2>
-        <div id="offers" class="scrollable-card-content">Cargando ofertas...</div>
+        <h2>🛠️ Herramientas Útiles</h2>
+        <div id="offers" class="scrollable-card-content">Cargando herramientas...</div>
       </div>
     </div>
 
@@ -189,8 +196,8 @@
 
     <div class="card">
       <div class="card-content">
-        <h2>🎤 Oferta Especial</h2>
-        <div id="special">Cargando oferta especial...</div>
+        <h2>✨ Herramienta Destacada</h2>
+        <div id="special">Cargando herramienta especial...</div>
       </div>
     </div>
 
