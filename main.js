@@ -1,5 +1,5 @@
 // =================================================================
-//     MAIN.JS - VERSIÓN FINAL CON CONTENIDO ESPECIAL SEPARADO
+//     MAIN.JS - VERSIÓN FINAL CON "HERRAMIENTAS ÚTILES"
 // =================================================================
 
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
@@ -29,28 +29,28 @@ async function cargarCitas() {
   }
 }
 
-async function cargarOfertas() {
+// --- VERSIÓN MEJORADA PARA "HERRAMIENTAS" ---
+async function cargarOfertas() { 
   try {
     const { data, error } = await supabase.from('deals').select('*');
     const html = data && !error
       ? data.map(i => `
           <div class="offer-item">
             <p>${i.titulo} - <em>${i.descripcion || ''}</em></p>
-            <a href="${i.url}" target="_blank" rel="noopener noreferrer" class="offer-button">Ver Oferta</a>
+            <a href="${i.url}" target="_blank" rel="noopener noreferrer" class="offer-button">Visitar</a>
           </div>
         `).join('')
-      : 'Error cargando ofertas.';
+      : 'Error cargando herramientas.';
     render('offers', html);
   } catch(e) {
-    console.error("Error en cargarOfertas:", e);
-    render('offers', 'Error cargando ofertas.');
+    console.error("Error en cargarHerramientas:", e);
+    render('offers', 'Error cargando herramientas.');
   }
 }
 
-// --- VERSIÓN CORREGIDA ---
+// --- VERSIÓN MEJORADA (LEE DE SPECIAL_QUOTES) ---
 async function cargarFrase() {
   try {
-    // Lee de la nueva tabla 'special_quotes' para no repetir contenido
     const { data, error } = await supabase.from('special_quotes').select('*').limit(1);
     const html = data && data.length && !error
       ? `
@@ -65,15 +65,14 @@ async function cargarFrase() {
   }
 }
 
-// --- VERSIÓN CORREGIDA ---
+// --- VERSIÓN MEJORADA PARA "HERRAMIENTA ESPECIAL" ---
 async function cargarOfertaEspecial() {
   try {
-    // Lee de la nueva tabla 'special_deals' para no repetir contenido
     const { data, error } = await supabase.from('special_deals').select('*').limit(1);
     if (data && data.length > 0 && !error) {
         const specialDeal = data[0];
         const buttonHtml = specialDeal.url
-            ? `<a href="${specialDeal.url}" target="_blank" rel="noopener noreferrer" class="offer-button">Ver Oferta</a>`
+            ? `<a href="${specialDeal.url}" target="_blank" rel="noopener noreferrer" class="offer-button">Visitar</a>`
             : '';
         const html = `
             <div class="offer-item">
@@ -83,11 +82,11 @@ async function cargarOfertaEspecial() {
         `;
         render('special', html);
     } else {
-        render('special', 'Error cargando oferta especial.');
+        render('special', 'Error cargando herramienta especial.');
     }
   } catch(e) {
-    console.error("Error en cargarOfertaEspecial:", e);
-    render('special', 'Error cargando oferta especial.');
+    console.error("Error en cargarHerramientaEspecial:", e);
+    render('special', 'Error cargando herramienta especial.');
   }
 }
 
@@ -170,9 +169,9 @@ async function cargarNoticias() {
 
 window.addEventListener('DOMContentLoaded', () => {
   cargarCitas();
-  cargarOfertas();
+  cargarOfertas(); // Esta función ahora carga las herramientas
   cargarFrase();
-  cargarOfertaEspecial();
+  cargarOfertaEspecial(); // Esta función ahora carga la herramienta destacada
   cargarReceta();
   cargarNoticias();
 });
